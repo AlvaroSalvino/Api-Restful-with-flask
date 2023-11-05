@@ -3,24 +3,51 @@ import json
 
 app = Flask(__name__)
 
-@app.route("/<int:id>")
-def pessoa(id):
-    soma = 1 + id
-    return jsonify({'id':id, 'nome':'jose', 'profissao':'desenvolvedor'})
+desenvolvedores = [
+    {
+        'id':'0',
+        'nome':'Alvaro',
+         'habilidades':['Python','Flask']
+    },
 
-'''@app.route('/soma/<int:valor1>/<int:valor2>')
-def soma(valor1, valor2):
-    return jsonify({'soma': valor1 + valor2})'''
+    {
+        'id':'1',
+        'nome':'Meyre',
+         'habilidades':['Python','Django']
+    }
+]
 
-@app.route('/soma', methods=['POST', 'PUT', 'GET'])
-def soma():
+# devolve um desenvolvedor pelo ID, tambem altera e deleta um desenvolvedor
+@app.route("/dev/<int:id>/", methods=['GET', 'PUT', 'DELETE'])
+def desenvolvedor(id):
+    if request.method == 'GET':
+        try:
+            response = desenvolvedores[id]
+        except IndexError:
+            mensagem = 'Desenvolvedor de ID {} não existe'.format(id)
+            response = {'status':'erro', 'mensagem':mensagem}
+        except Exception:
+            mensagem = 'Erro desconhecido, Procure o administrador da API'
+            response = {'status': 'erro', 'mensagem':mensagem}
+        return jsonify(response)
+    elif request.method == 'PUT':
+        dados = json.loads(request.data)
+        desenvolvedores[id] = dados
+        return jsonify(dados)
+    elif request.method == 'DELETE':
+        desenvolvedores.pop(id)
+        return jsonify({'status':'sucess', 'mensagem':'registro excluido'})
+
+@app.route('/dev/', methods=['POST', 'GET'])
+def lista_desenvolvedores():
     if request.method == 'POST':
         dados = json.loads(request.data)
-        total = sum(dados['valores'])
+        posicao = len(desenvolvedores)
+        dados['id'] = posicao
+        desenvolvedores.append(dados)
+        return jsonify(desenvolvedores[posicao])
     elif request.method == 'GET':
-        total = 10 + 10
-    return jsonify({'soma':total})
-
+        return jsonify(desenvolvedores)
 
 if __name__=="__main__":
     app.run(debug=True)
