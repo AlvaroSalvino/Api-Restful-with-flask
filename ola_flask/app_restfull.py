@@ -33,9 +33,9 @@ class Desenvolvedor(Resource):
         dados = json.loads(request.data)
         desenvolvedores[id] = dados
         return dados
-    def delete(self):
-        dados = json.loads(request.data)
-        return {'nome':'Alvaro'}
+    def delete(self, id):
+        desenvolvedores.pop(id)
+        return {'status':'sucess', 'mensagem':'registro excluido'}
 
 api.add_resource(Desenvolvedor, '/dev/<int:id>')
 
