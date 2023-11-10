@@ -1,14 +1,14 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 engine = create_engine('sqlite:///atividades.db')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
-base = declarative_base()
-base.query = db_session.query_property()
+Base = declarative_base()
+Base.query = db_session.query_property()
 
-class Pessoas(base):
+class Pessoas(Base):
     __tablename__='pessoas'
     id = Column(Integer, primary_key=True)
     nome = Column(String(40), index=True)
@@ -25,7 +25,7 @@ class Pessoas(base):
         db_session.delete(self)
         db_session.commit()
 
-class Atividades(base):
+class Atividades(Base):
     __tablename__='atividades'
     id = Column(Integer, primary_key=True)
     nome = Column(String(80))
@@ -43,7 +43,7 @@ class Atividades(base):
         db_session.delete(self)
         db_session.commit()
 
-class Usuarios(base):
+class Usuarios(Base):
     __tablename__='usuarios'
     id = Column(Integer, primary_key=True)
     login = Column(String(20), unique=True)
@@ -61,7 +61,7 @@ class Usuarios(base):
         db_session.commit()
 
 def init_db():
-    base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
 
 if __name__ == '__main__':
     init_db()
