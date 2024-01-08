@@ -1,8 +1,7 @@
 ## RestApi Com Flask
 
 # RestApi Com Flask e SQLAlchemy
-
-![Python, Flask, SQLAlchemy](flask-SQLAlquemy.jpg)
+![flask-SQLAlquemy](flask-SQLAlquemy.jpg)
 
 Esta API pode consultar Pessoas e suas respectivias idades, inserir novas pessoas atribuindo uma nova ID, Consultar e atribuir novas atividades a uma pessoa presente em seu banco de dados.
 
