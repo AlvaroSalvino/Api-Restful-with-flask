@@ -8,8 +8,8 @@ app = Flask(__name__)
 api = Api(app)
 
 #USUARIOS = {
-#    'rafael':'123',
-#    'galleani':'321'
+#    'alvin':'123',
+#    'show':'321'
 #}
 
 #@auth.verify_password
